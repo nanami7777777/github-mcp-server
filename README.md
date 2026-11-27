@@ -733,6 +733,15 @@ For negotiated supported protocol versions `2026-07-28` or newer, the consolidat
   - `owner`: The owner of the repository. (string, required)
   - `repo`: The name of the repository. (string, required)
 
+- **list_code_quality_findings** - List code quality findings
+  - **OAuth Challenge Scopes**: `repo`
+  - `after`: Cursor for pagination. Use the cursor from the previous response. (string, optional)
+  - `direction`: Sort by creation date: `desc` (newest first, default) or `asc` (oldest first). (string, optional)
+  - `owner`: The owner of the repository. (string, required)
+  - `perPage`: Results per page for pagination (min 1, max 100) (number, optional)
+  - `repo`: The name of the repository. (string, required)
+  - `state`: Filter code quality findings by state. Defaults to open (string, optional)
+
 </details>
 
 <details>
@@ -1760,6 +1769,21 @@ When using Docker, you can pass the read-only mode as an environment variable:
 docker run -i --rm \
   -e GITHUB_PERSONAL_ACCESS_TOKEN=<your-token> \
   -e GITHUB_READ_ONLY=1 \
+  ghcr.io/github/github-mcp-server
+```
+
+## Disabling MCP Apps
+
+MCP Apps is on by default. To run the server with no MCP App UI metadata, resources, or form handoff, pass `--mcp-apps=false` or set `GITHUB_MCP_APPS=false`. Tools then execute immediately and return their results inline. This is separate from `--features=mcp_apps_disable_form_deferral`, which keeps result views and only skips the input form.
+
+```bash
+./github-mcp-server stdio --mcp-apps=false
+```
+
+```bash
+docker run -i --rm \
+  -e GITHUB_PERSONAL_ACCESS_TOKEN=<your-token> \
+  -e GITHUB_MCP_APPS=false \
   ghcr.io/github/github-mcp-server
 ```
 
